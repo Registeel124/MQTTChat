@@ -32,9 +32,15 @@ class MQTTChatGUI(Frame):
         self.mqtt_client.connect("broker.mqttdashboard.com")
         self.mqtt_client.subscribe("/BWI20KS/Chat")
         self.mqtt_client.on_message = self.receive_message
+        self.mqtt_client.on_connect = self.on_connect
         self.mqtt_client.loop_start()
 
-    def receive_message
+    def receive_message(self, client, user_data, message):
+        text = message.payload.decode("utf8")
+        self.main_text.insert(END, text + '\n')
+
+    def on_connect(self, client, userdata, flags, rc):
+        print("Connected.")
 
 
 if __name__ == '__main__':
