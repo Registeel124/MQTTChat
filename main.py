@@ -22,6 +22,7 @@ class MQTTChatGUI(Frame):
         self.message_entry.grid(column=1, row=2, columnspan=3, sticky="we")
         self.send_button = ttk.Button(frm, text="Send")
         self.send_button.grid(column=4, row=2, sticky="e")
+        self.send_butten.config(command=self.send_message)
         # set default values
         self.broker_entry.insert(0, "broker.mqttdashboard.com")
         # set callbacks
@@ -30,7 +31,6 @@ class MQTTChatGUI(Frame):
 
         self.mqtt_client: mqtt.Client = mqtt.Client("Claudius")
         self.mqtt_client.connect("broker.mqttdashboard.com")
-        self.mqtt_client.subscribe("/BWI20KS/Chat")
         self.mqtt_client.on_message = self.receive_message
         self.mqtt_client.on_connect = self.on_connect
         self.mqtt_client.loop_start()
@@ -41,6 +41,11 @@ class MQTTChatGUI(Frame):
 
     def on_connect(self, client, userdata, flags, rc):
         print("Connected.")
+        self.mqtt_client.subscribe("/BWI20KS/Chat")
+
+    def send_message(self):
+        message =self.message_entry.get()
+        self.mqtt_client.publish("/BWI20KS/Chat", message)
 
 
 if __name__ == '__main__':
