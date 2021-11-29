@@ -22,7 +22,7 @@ class MQTTChatGUI(Frame):
         self.message_entry.grid(column=1, row=2, columnspan=3, sticky="we")
         self.send_button = ttk.Button(frm, text="Send")
         self.send_button.grid(column=4, row=2, sticky="e")
-        self.send_butten.config(command=self.send_message)
+        self.send_button.config(command=self.send_message)
         # set default values
         self.broker_entry.insert(0, "broker.mqttdashboard.com")
         # set callbacks
