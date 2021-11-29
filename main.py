@@ -20,6 +20,7 @@ class MQTTChatGUI(Frame):
         ttk.Label(frm, text="Message").grid(column=0, row=2, sticky="w")
         self.message_entry = ttk.Entry(frm, text="Message")
         self.message_entry.grid(column=1, row=2, columnspan=3, sticky="we")
+        self.message_entry.bind("<Return>", self.send_message)
         self.send_button = ttk.Button(frm, text="Send")
         self.send_button.grid(column=4, row=2, sticky="e")
         self.send_button.config(command=self.send_message)
@@ -43,7 +44,7 @@ class MQTTChatGUI(Frame):
         print("Connected.")
         self.mqtt_client.subscribe("/BWI20KS/Chat")
 
-    def send_message(self):
+    def send_message(self, event=None):
         message =self.message_entry.get()
         self.mqtt_client.publish("/BWI20KS/Chat", message)
 
